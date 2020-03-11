@@ -1,0 +1,86 @@
+<script src="simpletest.js"></script>
+<script>
+
+
+  function find(array, callback, optionalThis) {
+    var savedArray = array;
+    var arrayLength = savedArray.length;
+
+    if (optionalThis) {
+      callback = callback.bind(optionalThis);
+    }
+
+    for (var i = 0; i < arrayLength; i++) {
+      var result = callback(savedArray[i], i, savedArray)
+      if (result) {
+        return result;
+      }
+    }
+  }
+
+  tests({
+
+    'it should return the first array[i] that passes the callback condition and stop running': function () {
+
+      var counter = 0;
+
+      var y = find([1, 2, 3], function return5(num) {
+        counter++;
+        if (num > 1) {
+          return num;
+        }
+      });
+      eq(y, 2);
+      eq(counter, 2);
+
+    },
+
+    'it should return undefined if none of the array values passes the callback condition': function () {
+
+      var y = find([1, 2, 3], function return5(num) {
+
+        if (num > 3) {
+          return num;
+        }
+      });
+      eq(y, undefined);
+    },
+
+    "it should pass in the ith element as the first argument to the callback": function () {
+      find([1], function (number) {
+        eq(number, 1);
+      });
+    },
+
+    "it should pass in the ith position as the second argument to the callback": function () {
+      find([1], function (number, index) {
+        eq(index, 0);
+      });
+    },
+    "it should pass in the original array as the third argument to the callback": function () {
+      var testArray = [1, 2, 3];
+      find(testArray, function (number, index, originalArray) {
+        eq(testArray, originalArray);
+      });
+    },
+
+
+    "it should accept an optional this object as the third argument ": function () {
+
+      var x = find([1, 2, 3], function () {
+        eq(this.keyword, 'optional this object');
+      }, { keyword: 'optional this object' });
+    },
+
+    "It should save the array state at the time find is called and run the callback on that, in case the callback manipulates the array": function () {
+      var newArray = [1, 2, 3];
+      var x = find(newArray, function (num) {
+        newArray.push(5);
+        if (num > 2) {
+          return num;
+        }
+      });
+      eq(x, 3);
+    }
+  });
+</script>
