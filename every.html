@@ -1,0 +1,105 @@
+<script src="simpletest.js"></script>
+<script>
+
+
+  function every(array, callback, optionalThis) {
+    var savedArray = array;
+    var arrayLength = savedArray.length;
+
+    if (optionalThis) {
+      callback = callback.bind(optionalThis);
+    }
+    
+    for (var i = 0; i < arrayLength; i++) {
+      if (i in savedArray) {
+        var result = callback(savedArray[i], i, savedArray)
+        if (!result) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  tests({
+
+    'it should return false if array[i] fails the callback condition and stop running': function () {
+
+      var counter = 0;
+
+      var y = every([1, 2, 3], function (num) {
+        counter++;
+        return (num > 1);
+      });
+      eq(y, false);
+      eq(counter, 1);
+
+    },
+
+    'it should return false if any of the array values passes the callback condition': function () {
+
+      var y = every([1, 2, 3], function return5(num) {
+
+        if (num > 1) {
+          return num;
+        }
+      });
+      eq(y, false);
+    },
+
+    'it should return true if array is empty': function () {
+
+      var y = every([], function () { });
+      eq(y, true);
+    },
+
+    "it should pass in the ith element as the first argument to the callback": function () {
+      every([1], function (number) {
+        eq(number, 1);
+      });
+    },
+
+    "it should pass in the ith position as the second argument to the callback": function () {
+      every([1], function (number, index) {
+        eq(index, 0);
+      });
+    },
+    "it should pass in the original array as the third argument to the callback": function () {
+      var testArray = [1, 2, 3];
+      every(testArray, function (number, index, originalArray) {
+        eq(testArray, originalArray);
+      });
+    },
+
+    "it should accept an optional this object as the third argument ": function () {
+
+      var x = every([1, 2, 3], function () {
+        eq(this.keyword, 'optional this object');
+      }, { keyword: 'optional this object' });
+    },
+
+    "it should skip over holes / unassigned indexes in the array ": function () {
+
+      var counter = 0;
+      var weirdArray = [, 5, , 3];
+      var everyArray = every(weirdArray, function (number, i, array) {
+        counter++;
+        eq(array[0], undefined);
+        eq(array[1], 5)
+        eq(array[2], undefined);
+        eq(array[3], 3)
+      });
+      eq(everyArray, false);
+      eq(counter, 1);
+    },
+
+    "It should save the state of the array passed in to run with callback when find is called, in case the callback mutates the array": function () {
+      var newArray = [1, 2, 3];
+      var x = every(newArray, function (num) {
+        newArray.push(4);
+        return (num < 4);
+      });
+      eq(x, true);
+    }
+  });
+</script>
