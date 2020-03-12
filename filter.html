@@ -19,6 +19,7 @@ function filter(originalArray, callback, optionalThis){
     }
 
     tests({
+
       "it should run the callback array.length times.": function() {
         var counter = 0;
         filter([1,2,3], function () {
@@ -38,28 +39,33 @@ function filter(originalArray, callback, optionalThis){
           eq(index, 0);
         })
       },
+
       "it should pass in the original array as the third argument to the callback": function() {
         var testArray = [1,2,3];
         filter(testArray, function (number, index, originalArray) {
           eq(testArray, originalArray);
         })
       },
+
       "it should accept an optional this object as the third argument": function() {
         filter([1], function () {
           eq(this.description, 'I am a configurable this object');
         }, {description: 'I am a configurable this object'});
       },
+
       "it should return an array.": function() {
         var testArray = [];
         var filteredArray = filter(testArray, function (){});
         eq(Array.isArray(filteredArray), true);
 
       },
+
       "it should return a new array, not the array being filtered.": function() {
         var testArray = [];
         var filteredArray = filter(testArray, function (){});
         eq(filteredArray !== testArray, true);
       },
+      
       "it should return a filtered array.": function() {
        
         var filteredArray = filter([1,2], function (number){

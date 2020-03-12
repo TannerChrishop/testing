@@ -33,12 +33,14 @@ function forEach(array, callback, optionalThis){
           eq(index, 0);
         })
       },
+
       "it should pass in the original array as the third argument to the callback": function() {
         var testArray = [1,2,3];
         forEach(testArray, function (number, index, originalArray) {
           eq(testArray, originalArray);
         })
       },
+      
       "it should accept an optional this object as the third argument": function() {
         forEach([1], function () {
           eq(this.description, 'I am a configurable this object')

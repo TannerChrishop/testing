@@ -32,7 +32,6 @@
       });
       eq(y, 2);
       eq(counter, 2);
-
     },
 
     'it should return undefined if none of the array values passes the callback condition': function () {
@@ -57,13 +56,13 @@
         eq(index, 0);
       });
     },
+    
     "it should pass in the original array as the third argument to the callback": function () {
       var testArray = [1, 2, 3];
       find(testArray, function (number, index, originalArray) {
         eq(testArray, originalArray);
       });
     },
-
 
     "it should accept an optional this object as the third argument ": function () {
 

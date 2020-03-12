@@ -37,12 +37,14 @@
           eq(index, 0);
         });
       },
+
       "it should pass in the original array as the third argument to the callback": function() {
         var testArray = [1, 2, 3];
         map(testArray, function(number, index, originalArray) {
           eq(testArray, originalArray);
         });
       },
+
       "it should accept an optional this object as the third argument": function() {
         map(
           [1],
@@ -52,22 +54,26 @@
           { description: "I am a configurable this object" }
         );
       },
+
       "it should return an array.": function() {
         var testArray = [];
         var mappedArray = map(testArray, function() {});
         eq(Array.isArray(mappedArray), true);
       },
+
       "it should return a new array, not the array being mapped.": function() {
         var testArray = [];
         var mappedArray = map(testArray, function() {});
         eq(mappedArray !== testArray, true);
       },
+
       "it should return a mapped array.": function() {
         var mappedArray = map([1], function(number) {
           return number * 4;
         });
         eq(mappedArray[0], 4);
       },
+      
       "it should skip over holes / unassigned indexes": function() {
         var weirdArray = [, 1];
         var mappedArray = map(weirdArray, function double(number) {
