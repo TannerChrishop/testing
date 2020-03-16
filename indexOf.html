@@ -6,7 +6,7 @@
 
     if (optionalIndex) {
       if (optionalIndex < 0) {
-        optionalIndex = Math.abs(optionalIndex) % array.length;
+        optionalIndex = array.length + optionalIndex
       }
       startingIndex = optionalIndex;
     }
@@ -21,12 +21,10 @@
 
   tests({
 
-    'it should return the index of the matching item in the array': function () {
+    'it should return the index first of the matching item in the array': function () {
 
-      var arr1 = [1, 2, 3]
-
+      var arr1 = [1, 2, 3, 3]
       var x = indexOf(arr1, 3)
-
       eq(x, 2)
 
     },
@@ -41,7 +39,6 @@
 
       var x = [1, 2, 1, 1, 1, 2];
       var y = indexOf(x, 2, 2);
-
       eq(y, 5);
     },
 
@@ -55,7 +52,7 @@
       eq(y, 0);
     },
 
-    'If the provided index value is greater than array.lenth, -1 is returned': function () {
+    'If the provided index value is greater than array.length, -1 is returned': function () {
 
       var array = [2, 9, 9];
       var x = indexOf(array, 2, 3)
@@ -64,6 +61,5 @@
       var y = indexOf(array, 9, 4);
       eq(y, -1);
     }
-
   });
 </script>

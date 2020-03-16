@@ -1,0 +1,79 @@
+<script src="simpletest.js"></script>
+<script>
+
+  function lastIndexOf(array, item, optionalIndex) {
+    var startingIndex = array.length - 1;
+
+    if (optionalIndex) {
+      if (optionalIndex < 0) {
+        startingIndex = (array.length + optionalIndex);
+      } else {
+        startingIndex = optionalIndex;
+      }
+    }
+
+    for (var i = startingIndex; i >= 0; i--) {
+      if (array[i] === item) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  tests({
+
+    'it should return the last index of the matching item in the array': function () {
+
+      var arr1 = [1, 2, 3, 3]
+
+      var x = lastIndexOf(arr1, 3)
+
+      eq(x, 3)
+
+    },
+
+    'it should return -1 if none of the array values matches the item': function () {
+
+      var y = lastIndexOf([1, 2, 3], 4)
+      eq(y, -1);
+    },
+
+    'it should take an optional starting Index (that starts from the right side)': function () {
+
+      var x = [1, 2, 1, 1, 1, 2];
+      var y = lastIndexOf(x, 2, 2);
+
+      eq(y, 1);
+    },
+
+    'If the provided index value is a negative number, it is taken as the offset from the end of the array': function () {
+
+      var numbers = [2, 5, 9, 2];
+
+      var u = lastIndexOf(numbers, 2);
+      eq(u, 3);
+      var v = lastIndexOf(numbers, 7);
+      eq(v, -1);
+      var w = lastIndexOf(numbers, 2, 3);  
+      eq(w, 3);
+      var x = lastIndexOf(numbers, 2, 2);  
+      eq(x, 0);
+      var y = lastIndexOf(numbers, 2, -2); 
+      eq(y, 0);
+      var z = lastIndexOf(numbers, 2, -1); 
+      eq(z, 3);
+
+    },
+
+    'If the provided index value is greater than array.length, array is run for full length': function () {
+
+      var array = [2, 9, 9];
+      var x = lastIndexOf(array, 2, 3)
+      eq(x, 0);
+
+      var y = lastIndexOf(array, 9, 4);
+      eq(y, 2);
+    }
+
+  });
+</script>
