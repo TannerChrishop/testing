@@ -1,0 +1,69 @@
+<script src="simpletest.js"></script>
+<script>
+
+  function indexOf(array, item, optionalIndex) {
+    var startingIndex = 0;
+
+    if (optionalIndex) {
+      if (optionalIndex < 0) {
+        optionalIndex = Math.abs(optionalIndex) % array.length;
+      }
+      startingIndex = optionalIndex;
+    }
+
+    for (var i = startingIndex; i < array.length; i++) {
+      if (array[i] === item) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  tests({
+
+    'it should return the index of the matching item in the array': function () {
+
+      var arr1 = [1, 2, 3]
+
+      var x = indexOf(arr1, 3)
+
+      eq(x, 2)
+
+    },
+
+    'it should return -1 if none of the array values matches the item': function () {
+
+      var y = indexOf([1, 2, 3], 4)
+      eq(y, -1);
+    },
+
+    'it should take an optional starting Index ': function () {
+
+      var x = [1, 2, 1, 1, 1, 2];
+      var y = indexOf(x, 2, 2);
+
+      eq(y, 5);
+    },
+
+    'If the provided index value is a negative number, it is taken as the offset from the end of the array': function () {
+
+      var array = [2, 9, 9];
+      var x = indexOf(array, 2, -1)
+      eq(x, -1);
+
+      var y = indexOf(array, 2, -3);
+      eq(y, 0);
+    },
+
+    'If the provided index value is greater than array.lenth, -1 is returned': function () {
+
+      var array = [2, 9, 9];
+      var x = indexOf(array, 2, 3)
+      eq(x, -1);
+
+      var y = indexOf(array, 9, 4);
+      eq(y, -1);
+    }
+
+  });
+</script>
