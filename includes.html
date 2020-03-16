@@ -1,0 +1,72 @@
+<script src="simpletest.js"></script>
+
+<body>
+  <script>
+
+    function includes(array, item, optionalIndex) {
+      var startingIndex = 0;
+
+      if (optionalIndex) {
+        if (optionalIndex < 0) {
+          startingIndex = array.length + optionalIndex;
+        } else {
+          startingIndex = optionalIndex;
+        }
+      }
+
+      for (var i = startingIndex; i < array.length; i++) {
+        if (array[i] === item) {
+          return true;
+        } 
+        else if (isNaN(array[i]) && isNaN(item)) {
+          return true;
+        }
+      } return false
+    }
+
+    tests({
+      "it should return true if the item is in the array.": function () {
+
+        var arr = [1, 2, 3];
+        var x = includes(arr, 3);
+        eq(x, true);
+      },
+
+      "it should return false if the item is not the array.": function () {
+
+        var arr = [1, 2, 3];
+        var x = includes(arr, 0);
+        eq(x, false);
+      },
+
+      "it should accept an optional startingIndex that counts backwards from array.length if it's a negative value.": function () {
+
+        var arr = [1, 2, 1, 1];
+
+        var x = includes(arr, 2, 1);
+        eq(x, true);
+
+        var y = includes(arr, 2, -1)
+        eq(y, false)
+
+        var z = includes(arr, 2, -3)
+        eq(z, true)
+      },
+
+      "It should behave the same as the native": function () {
+
+        var v = includes([1, 2, 3], 2)
+        eq(v, true);
+        var w = includes([1, 2, 3], 4)  
+        eq(w, false);   
+        var x = includes([1, 2, 3], 3, 3)  
+        eq(x, false); 
+        var y = includes([1, 2, 3], 3, -1)  
+        eq(y, true);
+        var z = includes([1, 2, NaN], NaN) 
+        eq(z, true);
+
+      }
+    });
+  </script>
+</body>
