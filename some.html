@@ -1,106 +1,109 @@
 <script src="simpletest.js"></script>
-<script>
 
-  function some(array, callback, optionalThis) {
-    var savedArray = array;
-    var arrayLength = savedArray.length;
+<body>
+  <script>
 
-    if (optionalThis) {
-      callback = callback.bind(optionalThis);
-    }
+    function some(array, callback, optionalThis) {
+      var savedArray = array;
+      var arrayLength = savedArray.length;
 
-    for (var i = 0; i < arrayLength; i++) {
-      if (i in savedArray) {
-        var result = callback(savedArray[i], i, savedArray)
-        if (result) {
-          return true;
+      if (optionalThis) {
+        callback = callback.bind(optionalThis);
+      }
+
+      for (var i = 0; i < arrayLength; i++) {
+        if (i in savedArray) {
+          var result = callback(savedArray[i], i, savedArray)
+          if (result) {
+            return true;
+          }
         }
       }
+      return false;
     }
-    return false;
-  }
 
-  tests({
+    tests({
 
-    'it should return false if entire array fails the callback condition': function () {
+      'it should return false if entire array fails the callback condition': function () {
 
-      var counter = 0;
+        var counter = 0;
 
-      var y = some([1, 2, 3], function (num) {
-        counter++;
-        return (num > 4);
-      });
-      eq(y, false);
-      eq(counter, 3);
+        var y = some([1, 2, 3], function (num) {
+          counter++;
+          return (num > 4);
+        });
+        eq(y, false);
+        eq(counter, 3);
 
-    },
+      },
 
-    'it should return true if any of the array values passes the callback condition': function () {
+      'it should return true if any of the array values passes the callback condition': function () {
 
-      var y = some([1, 2, 3], function (num) {
+        var y = some([1, 2, 3], function (num) {
 
-        if (num > 2) {
-          return num;
-        }
-      });
-      eq(y, true);
-    },
+          if (num > 2) {
+            return num;
+          }
+        });
+        eq(y, true);
+      },
 
-    'it should return false if array is empty': function () {
+      'it should return false if array is empty': function () {
 
-      var y = some([], function () { });
-      eq(y, false);
-    },
+        var y = some([], function () { });
+        eq(y, false);
+      },
 
-    "it should pass in the ith element as the first argument to the callback": function () {
-      some([1], function (number) {
-        eq(number, 1);
-      });
-    },
+      "it should pass in the ith element as the first argument to the callback": function () {
+        some([1], function (number) {
+          eq(number, 1);
+        });
+      },
 
-    "it should pass in the ith position as the second argument to the callback": function () {
-      some([1], function (number, index) {
-        eq(index, 0);
-      });
-    },
-    
-    "it should pass in the original array as the third argument to the callback": function () {
-      var testArray = [1, 2, 3];
-      some(testArray, function (number, index, originalArray) {
-        eq(testArray, originalArray);
-      });
-    },
+      "it should pass in the ith position as the second argument to the callback": function () {
+        some([1], function (number, index) {
+          eq(index, 0);
+        });
+      },
 
-    "it should accept an optional this object as the third argument ": function () {
+      "it should pass in the original array as the third argument to the callback": function () {
+        var testArray = [1, 2, 3];
+        some(testArray, function (number, index, originalArray) {
+          eq(testArray, originalArray);
+        });
+      },
 
-      var x = some([1, 2, 3], function () {
-        eq(this.keyword, 'optional this object');
-      }, { keyword: 'optional this object' });
-    },
+      "it should accept an optional this object as the third argument ": function () {
 
-    "it should skip over holes / unassigned indexes in the array ": function () {
+        var x = some([1, 2, 3], function () {
+          eq(this.keyword, 'optional this object');
+        }, { keyword: 'optional this object' });
+      },
 
-      var counter = 0;
-      var weirdArray = [, 5, , 3];
-      var someArray = some(weirdArray, function (number, i, array) {
-        counter++;
-        eq(array[0], undefined);
-        eq(array[1], 5)
-        eq(array[2], undefined);
-        eq(array[3], 3)
-        return (number < 4);
-      });
-      eq(someArray, true);
-      eq(counter, 2);
-    },
+      "it should skip over holes / unassigned indexes in the array ": function () {
 
-    "It should save the state of the array passed in to run with callback when find is called, in case the callback mutates the array": function () {
-      var newArray = [1, 2, 3];
-      var x = some(newArray, function (num) {
-        newArray.push(4);
-        return (num < 4);
-      });
-      eq(x, true);
-    }
-  });
-</script>
+        var counter = 0;
+        var weirdArray = [, 5, , 3];
+        var someArray = some(weirdArray, function (number, i, array) {
+          counter++;
+          eq(array[0], undefined);
+          eq(array[1], 5)
+          eq(array[2], undefined);
+          eq(array[3], 3)
+          return (number < 4);
+        });
+        eq(someArray, true);
+        eq(counter, 2);
+      },
+
+      "It should save the state of the array passed in to run with callback when find is called, in case the callback mutates the array": function () {
+        var newArray = [1, 2, 3];
+        var x = some(newArray, function (num) {
+          newArray.push(4);
+          return (num < 4);
+        });
+        eq(x, true);
+      }
+    });
+  </script>
+</body>

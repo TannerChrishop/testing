@@ -1,0 +1,55 @@
+<script src="simpletest.js"></script>
+
+<body>
+  <script>
+
+    function slice(array, begin, end) {
+      if (!begin) { begin = 0 }
+      if (!end) { end = array.length }
+      if (begin < 0) {
+        begin = array.length + begin;
+      }
+
+      var newArr = [];
+      var newi = 0;
+
+      for (var i = begin; i < end; i++) {
+        newArr[newi] = array[i];
+        newi++;
+      }
+      return newArr;
+    }
+
+    tests({
+      "It should return a copy of the original array if the array is the only argument": function () {
+
+        var arr = [1, 2, 3];
+        var x = slice(arr);
+        eq(x[0], arr[0]);
+        eq(x[1], arr[1]);
+        eq(x[2], arr[2]);
+      },
+      "It should return a sliced array with just a startingIndex argument.": function () {
+
+        var arr = [1, 2, 3];
+        var x = slice(arr, 1);
+        eq(x[0], arr[1]);
+        eq(x[1], arr[2]);
+      },
+      "It should return a sliced array with both a startingIndex and endingIndex argument.": function () {
+
+        var arr = [1, 2, 3];
+        var x = slice(arr, 1, 2);
+        eq(x[0], arr[1]);
+      },
+      "It should accept a negative startingIndex that starts from array.length.": function () {
+
+        var arr = [1, 2, 3];
+        var x = slice(arr, -2)
+        eq(x[0], arr[1]);
+        eq(x[1], arr[2]);
+      }
+    });
+
+  </script>
+</body>

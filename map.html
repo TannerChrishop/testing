@@ -1,4 +1,5 @@
 <script src="simpletest.js"></script>
+
 <body>
   <script>
     function map(originalArray, callback, optionalThis) {
@@ -18,63 +19,63 @@
     }
 
     tests({
-      "it should run the callback array.length times.": function() {
+      "it should run the callback array.length times.": function () {
         var counter = 0;
-        map([1, 2, 3], function() {
+        map([1, 2, 3], function () {
           counter++;
         });
         eq(counter, 3);
       },
 
-      "it should pass in the ith element as the first argument to the callback": function() {
-        map([1], function(number) {
+      "it should pass in the ith element as the first argument to the callback": function () {
+        map([1], function (number) {
           eq(number, 1);
         });
       },
 
-      "it should pass in the ith position as the second argument to the callback": function() {
-        map([1], function(number, index) {
+      "it should pass in the ith position as the second argument to the callback": function () {
+        map([1], function (number, index) {
           eq(index, 0);
         });
       },
 
-      "it should pass in the original array as the third argument to the callback": function() {
+      "it should pass in the original array as the third argument to the callback": function () {
         var testArray = [1, 2, 3];
-        map(testArray, function(number, index, originalArray) {
+        map(testArray, function (number, index, originalArray) {
           eq(testArray, originalArray);
         });
       },
 
-      "it should accept an optional this object as the third argument": function() {
+      "it should accept an optional this object as the third argument": function () {
         map(
           [1],
-          function() {
+          function () {
             eq(this.description, "I am a configurable this object");
           },
           { description: "I am a configurable this object" }
         );
       },
 
-      "it should return an array.": function() {
+      "it should return an array.": function () {
         var testArray = [];
-        var mappedArray = map(testArray, function() {});
+        var mappedArray = map(testArray, function () { });
         eq(Array.isArray(mappedArray), true);
       },
 
-      "it should return a new array, not the array being mapped.": function() {
+      "it should return a new array, not the array being mapped.": function () {
         var testArray = [];
-        var mappedArray = map(testArray, function() {});
+        var mappedArray = map(testArray, function () { });
         eq(mappedArray !== testArray, true);
       },
 
-      "it should return a mapped array.": function() {
-        var mappedArray = map([1], function(number) {
+      "it should return a mapped array.": function () {
+        var mappedArray = map([1], function (number) {
           return number * 4;
         });
         eq(mappedArray[0], 4);
       },
-      
-      "it should skip over holes / unassigned indexes": function() {
+
+      "it should skip over holes / unassigned indexes": function () {
         var weirdArray = [, 1];
         var mappedArray = map(weirdArray, function double(number) {
           return number * 2;

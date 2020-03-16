@@ -1,74 +1,75 @@
 <script src="simpletest.js"></script>
+
 <body>
   <script>
 
-function filter(originalArray, callback, optionalThis){
+    function filter(originalArray, callback, optionalThis) {
       var filterCallback = callback;
-      if(optionalThis) {
+      if (optionalThis) {
         filterCallback = callback.bind(optionalThis);
       }
 
       var filteredArray = [];
 
-      for (var i = 0; i < originalArray.length; i++){
-       if (filterCallback(originalArray[i], i, originalArray)) {
-         filteredArray.push(originalArray[i]);
-       };
+      for (var i = 0; i < originalArray.length; i++) {
+        if (filterCallback(originalArray[i], i, originalArray)) {
+          filteredArray.push(originalArray[i]);
+        };
       }
       return filteredArray;
     }
 
     tests({
 
-      "it should run the callback array.length times.": function() {
+      "it should run the callback array.length times.": function () {
         var counter = 0;
-        filter([1,2,3], function () {
+        filter([1, 2, 3], function () {
           counter++;
         })
         eq(counter, 3);
       },
 
-      "it should pass in the ith element as the first argument to the callback": function() {
+      "it should pass in the ith element as the first argument to the callback": function () {
         filter([1], function (number) {
           eq(number, 1);
         })
       },
 
-      "it should pass in the ith position as the second argument to the callback": function() {
+      "it should pass in the ith position as the second argument to the callback": function () {
         filter([1], function (number, index) {
           eq(index, 0);
         })
       },
 
-      "it should pass in the original array as the third argument to the callback": function() {
-        var testArray = [1,2,3];
+      "it should pass in the original array as the third argument to the callback": function () {
+        var testArray = [1, 2, 3];
         filter(testArray, function (number, index, originalArray) {
           eq(testArray, originalArray);
         })
       },
 
-      "it should accept an optional this object as the third argument": function() {
+      "it should accept an optional this object as the third argument": function () {
         filter([1], function () {
           eq(this.description, 'I am a configurable this object');
-        }, {description: 'I am a configurable this object'});
+        }, { description: 'I am a configurable this object' });
       },
 
-      "it should return an array.": function() {
+      "it should return an array.": function () {
         var testArray = [];
-        var filteredArray = filter(testArray, function (){});
+        var filteredArray = filter(testArray, function () { });
         eq(Array.isArray(filteredArray), true);
 
       },
 
-      "it should return a new array, not the array being filtered.": function() {
+      "it should return a new array, not the array being filtered.": function () {
         var testArray = [];
-        var filteredArray = filter(testArray, function (){});
+        var filteredArray = filter(testArray, function () { });
         eq(filteredArray !== testArray, true);
       },
-      
-      "it should return a filtered array.": function() {
-       
-        var filteredArray = filter([1,2], function (number){
+
+      "it should return a filtered array.": function () {
+
+        var filteredArray = filter([1, 2], function (number) {
           return number > 1;
         });
         eq(filteredArray.length == 1, true);

@@ -17,7 +17,7 @@
       for (var i = startingIndex; i < array.length; i++) {
         if (array[i] === item) {
           return true;
-        } 
+        }
         else if (isNaN(array[i]) && isNaN(item)) {
           return true;
         }
@@ -57,13 +57,13 @@
 
         var v = includes([1, 2, 3], 2)
         eq(v, true);
-        var w = includes([1, 2, 3], 4)  
-        eq(w, false);   
-        var x = includes([1, 2, 3], 3, 3)  
-        eq(x, false); 
-        var y = includes([1, 2, 3], 3, -1)  
+        var w = includes([1, 2, 3], 4)
+        eq(w, false);
+        var x = includes([1, 2, 3], 3, 3)
+        eq(x, false);
+        var y = includes([1, 2, 3], 3, -1)
         eq(y, true);
-        var z = includes([1, 2, NaN], NaN) 
+        var z = includes([1, 2, NaN], NaN)
         eq(z, true);
 
       }
