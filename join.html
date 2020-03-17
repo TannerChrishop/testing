@@ -1,0 +1,43 @@
+<script src="simpletest.js"></script>
+
+<body>
+  <script>
+
+    function join(array, optionalSymbol) {
+      var symbol = ","
+
+      if (optionalSymbol) {
+        symbol = optionalSymbol;
+      }
+      var newString = "";
+      for (var i = 0; i < array.length; i++) {
+        newString += array[i];
+        if (array[i + 1]) {
+          newString += symbol;
+        }
+
+      }
+      return newString;
+    }
+
+    tests({
+
+      "It should return a string of the array": function () {
+
+        var str = join(["Hello", "there"]);
+        eq(str, "Hello,there");
+      },
+      "It should accept an optional symbol as a divider": function () {
+
+        var str = join(["Hello", "there"], ", ");
+        eq(str, "Hello, there");
+      },
+      "If called with empty array it should return an empty string": function () {
+
+        var str = join([]);
+        eq(str, "");
+      }
+
+    });
+  </script>
+</body>
