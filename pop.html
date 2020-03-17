@@ -1,0 +1,24 @@
+<script src = "simpletest.js"></script>
+<body>
+  <script>
+
+    function pop(array){
+      var popped = array[(array.length-1)];
+      array.length -=1;
+      return popped;
+    }
+
+    tests({
+
+      "It should pop off the last item in the array and return it.": function () {
+        var arr = [1,2,3];
+        var x = pop(arr);
+        eq(x, 3);
+        eq(arr[0], 1);
+        eq(arr[1], 2);
+        eq(arr[2], undefined);
+      }
+    });
+
+  </script>
+</body>
