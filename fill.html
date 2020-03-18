@@ -1,0 +1,39 @@
+<script src = "simpletest.js"></script>
+<body>
+  <script>
+
+    function fill (array, value, start, end) {
+      if(!start){
+        start = 0;
+      }
+      if(!end){
+        end = array.length;
+      }
+      for (var i = start; i < end; i++) {
+        array[i] = value;
+      }
+      return array;
+    }
+
+    tests({
+
+      "It should take a starting and ending value and fill the array with a value argument" : function () {
+        var arr = [1, 2, 3, 4];
+        
+        var x = fill(arr,8,);
+        
+        console.log(x);
+      },
+
+      "It should fill the entire array with the same value if it's the only argument(no start or end value)" : function () {
+        var arr = [1, 2, 3, 4];
+        
+        var x = fill(arr,8,);
+        
+        console.log(x);
+      }
+
+    });
+
+  </script>
+</body>

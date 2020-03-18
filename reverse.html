@@ -1,0 +1,29 @@
+<script src = "simpletest.js"></script>
+
+<body>
+  <script>
+
+    function reverse(array) {
+      for (var i = 0, j = array.length - 1; i <= j; i++, j--) {
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+      return array;
+    }
+
+tests ({
+
+  "it should reverse an array" :function () {
+
+    var arr = [1, 2, 3, 4, 5];
+    var x = reverse(arr);
+    eq(x[0], 5);
+    eq(x[1], 4);
+    eq(x[2], 3);
+    eq(x[3], 2);
+    eq(x[4], 1);
+  }
+});
+  </script>
+</body>
