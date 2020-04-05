@@ -1,0 +1,65 @@
+<script src="simpletest.js"></script>
+
+<body>
+  <script>
+
+    function sort(array, callback) {
+
+      if(!callback){
+        callback = function (a, b) {
+          return (a > b);
+        }
+      }
+      var sorted = false
+      var i = 0;
+      
+      while(sorted === false) {
+        var j = 0;
+        
+        if(callback(array[i], array[i+1]) === false) {
+          var temp = array[i];
+          array[i] = array[i+1];
+          array[i+1] = temp;
+          j++;
+          i = 0;
+        } else {
+          i++;
+        }
+        if(j == 0 && i === array.length-1) {
+          sorted = true;
+        }
+      }
+      return array;
+    }
+
+tests({
+
+  "It should sort an array if used with no callback": function () {
+    var arr = [1, 2, 3];
+    var x = arr[2];
+    var y = arr[1];
+    var z = arr[0];
+    
+    sort(arr);
+    eq(x, arr[0]);
+    eq(y, arr[1]);
+    eq(z, arr[2]);
+  },
+
+  "It should sort an array if used with callback": function () {
+    var arr = ["a", "b", "c"];
+    var x = arr[2];
+    var y = arr[1];
+    var z = arr[0];
+    
+    sort(arr, function(a, b){
+     return (a < b)
+    });
+    eq(x, arr[2]);
+    eq(y, arr[1]);
+    eq(z, arr[0]);
+  }
+});
+
+  </script>
+</body>
